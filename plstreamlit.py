@@ -11,14 +11,14 @@ import os
 matchweeks = ["Matchweek1", "Matchweek2", "Matchweek3", "Matchweek4"]
 
 def list_matches(matchweek):
-    matchweek_path = os.path.join("data", matchweek)
+    matchweek_path = os.path.join(matchweek)
     match_folders = os.listdir(matchweek_path)
     matches = [match for match in match_folders if os.path.isdir(os.path.join(matchweek_path, match))]
     return matches
 
 
 def load_data(matchweek, selected_match):
-    match_path = os.path.join("data", matchweek, selected_match)
+    match_path = os.path.join(matchweek, selected_match)
     players_df = pd.read_csv(os.path.join(match_path, "players_df.csv"))
     events_data = pd.read_csv(os.path.join(match_path, "eventsdata.csv"))
     return players_df, events_data
