@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from st_supabase_connection import SupabaseConnection
 import math
+import numpy as np
 
 # Initialize connection.
 conn = st.connection("supabase", type=SupabaseConnection)
