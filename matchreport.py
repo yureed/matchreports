@@ -6,7 +6,8 @@ import psycopg2
 conn = psycopg2.connect(
     user=st.secrets["db_user"],
     password=st.secrets["db_password"],
-    database=st.secrets["db_name"]
+    database=st.secrets["db_name"],
+    host=st.secrets["db_host"]
 )
 
 # Function to query data from a table
