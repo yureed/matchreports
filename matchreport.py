@@ -44,10 +44,12 @@ common_game_ids = consolidated_defined_actions['game_id'].unique()
 filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
 
 
-match_options = [f"{home_team} vs {away_team}" for home_team, away_team in zip(filtered_df_games['home_team'], filtered_df_games['away_team'])]
+# Print the available matches for debugging
+available_matches = [f"{home_team} vs {away_team}" for home_team, away_team in zip(filtered_df_games['home_team'], filtered_df_games['away_team'])]
+print("Available Matches:", available_matches)
 
 # Create a dropdown for selecting matches
-selected_match = st.selectbox('Select a match:', match_options)
+selected_match = st.selectbox('Select a match:', available_matches)
 
 # Extract home and away teams
 home_team, away_team = selected_match.split(' vs ')
