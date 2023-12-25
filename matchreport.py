@@ -1,25 +1,26 @@
 import streamlit as st
 import pandas as pd
-from supabase import create_client
+from supabase import create_client, Client
 
 # Replace 'your-url' and 'your-key' with your Supabase project URL and API key
 supabase_url = st.secrets["sb_url"]
 supabase_key = st.secrets["sb_api"]
 
 # Connect to Supabase
-supabase = create_client(supabase_url, supabase_key)
+supabase: Client = create_client(supabase_url, supabase_key)
 
-# Query and load data from Supabase for consolidated_defined_actions
-query_defined_actions = 'SELECT * FROM consolidated_defined_actions'
-consolidated_defined_actions = supabase.sql(query_defined_actions).get('data')
+# Function to query data from a table
+def query_table(table_name):
+    data = supabase.table(table_name).select("*").execute()
+    if data.error:
+        st.error(f"Error fetching data from {table_name}: {data.error.message}")
+        return pd.DataFrame()
+    return pd.DataFrame(data.data)
 
-# Query and load data from Supabase for consolidated_players
-query_players = 'SELECT * FROM consolidated_players'
-consolidated_players = supabase.sql(query_players).get('data')
-
-# Query and load data from Supabase for consolidated_teams
-query_teams = 'SELECT * FROM consolidated_teams'
-consolidated_teams = supabase.sql(query_teams).get('data')
+# Query and load data from Supabase
+consolidated_defined_actions = query_table('consolidated_defined_actions')
+consolidated_players = query_table('consolidated_players')
+consolidated_teams = query_table('consolidated_teams')
 
 # Load CSV file for eng_premier_league_2324
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
@@ -37,5 +38,3 @@ for index, row in filtered_df_games.iterrows():
     st.write(match_name)
 
 # Additional Streamlit features can be added as needed
-# For example, you can create interactive widgets for filtering, sorting, etc.
-# Refer to the Streamlit documentation for more options: https://docs.streamlit.io/
