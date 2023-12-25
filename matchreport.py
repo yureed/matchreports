@@ -1,17 +1,17 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 from st_supabase_connection import SupabaseConnection
 
 # Initialize connection.
-conn = st.connection("supabase",type=SupabaseConnection)
+conn = st.connection("supabase", type=SupabaseConnection)
 
 # Function to query data from a table
 def query_table(table_name):
-    with conn.cursor() as cur:
-        cur.execute(f"SELECT * FROM {table_name}")
-        rows = cur.fetchall()
-        return pd.DataFrame(rows, columns=[desc[0] for desc in cur.description])
+    query_result = conn.query("*", table=table_name).execute()
+    if query_result.error:
+        st.error(f"Error fetching data from {table_name}: {query_result.error.message}")
+        return pd.DataFrame()
+    return pd.DataFrame(query_result.data)
 
 # Query and load data from the database
 consolidated_defined_actions = query_table('consolidated_defined_actions')
@@ -32,6 +32,3 @@ st.title('Filtered Matches')
 for index, row in filtered_df_games.iterrows():
     match_name = f"{row['home_team']} vs {row['away_team']}"
     st.write(match_name)
-
-# Close the database connection
-conn.close()
