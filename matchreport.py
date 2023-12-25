@@ -26,8 +26,12 @@ common_game_ids = consolidated_defined_actions['game_id'].unique()
 # Filter rows in eng_premier_league_2324 where game_id is in common_game_ids
 filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
 
+# Create a multiselect widget for selecting matches
+selected_matches = st.multiselect('Select Matches', filtered_df_games.apply(lambda row: f"{row['home_team']} vs {row['away_team']}", axis=1).tolist())
+
 # Show matches in Streamlit
 st.title('Filtered Matches')
 for index, row in filtered_df_games.iterrows():
     match_name = f"{row['home_team']} vs {row['away_team']}"
-    st.write(match_name)
+    if match_name in selected_matches:
+        st.write(match_name)
