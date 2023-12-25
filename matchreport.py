@@ -7,6 +7,7 @@ from mplsoccer import Pitch
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+from matplotlib.colors import LinearSegmentedColormap
 import re
 import numpy as np
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
