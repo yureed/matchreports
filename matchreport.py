@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
-from supabase import create_client, Client
+from st_supabase_connection import SupabaseConnection
+
+# Initialize the Supabase connection
+conn = st.connection("supabase", type=SupabaseConnection)
 
 # Replace 'your-url' and 'your-key' with your Supabase project URL and API key
 supabase_url = st.secrets["sb_url"]
