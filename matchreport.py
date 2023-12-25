@@ -3,8 +3,8 @@ import pandas as pd
 from supabase import create_client
 
 # Replace 'your-url' and 'your-key' with your Supabase project URL and API key
-supabase_url = 'your-url'
-supabase_key = 'your-key'
+supabase_url = st.secrets["sb_url"]
+supabase_key = st.secrets["sb_api"]
 
 # Connect to Supabase
 supabase = create_client(supabase_url, supabase_key)
