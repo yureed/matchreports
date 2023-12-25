@@ -46,6 +46,7 @@ st.dataframe(consolidated_teams)
 # Load CSV file for eng_premier_league_2324
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
 
+common_game_ids = consolidated_defined_actions['game_id'].unique()
 # Print the common game IDs for debugging
 st.write("Number of Common Game IDs:", len(common_game_ids))
 st.write("Common Game IDs:", common_game_ids)
