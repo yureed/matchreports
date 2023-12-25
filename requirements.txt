@@ -1,0 +1,8 @@
+seaborn
+psycopg2-binary
+mplsoccer
+matplotlib
+highlight_text
+matplotlib
+numpy
+pandas
