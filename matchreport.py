@@ -26,12 +26,16 @@ common_game_ids = consolidated_defined_actions['game_id'].unique()
 # Filter rows in eng_premier_league_2324 where game_id is in common_game_ids
 filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
 
-# Create a multiselect widget for selecting matches
-selected_matches = st.multiselect('Select Matches', filtered_df_games.apply(lambda row: f"{row['home_team']} vs {row['away_team']}", axis=1).tolist())
 
-# Show matches in Streamlit
-st.title('Filtered Matches')
-for index, row in filtered_df_games.iterrows():
-    match_name = f"{row['home_team']} vs {row['away_team']}"
-    if match_name in selected_matches:
-        st.write(match_name)
+# Create a dropdown for selecting matches
+selected_match = st.selectbox('Select a match:', filtered_df_games.apply(lambda row: f"{row['home_team']} vs {row['away_team']}", axis=1).tolist())
+
+# Extract home and away teams
+home_team, away_team = selected_match.split(' vs ')
+
+# Find the corresponding game_id in filtered_df_games
+desired_game_id = filtered_df_games.loc[(filtered_df_games['home_team'] == home_team) & (filtered_df_games['away_team'] == away_team), 'game_id'].values[0]
+
+# Now you can use desired_game_id as needed
+st.write(f"Selected Match: {selected_match}")
+st.write(f"Desired Game ID: {desired_game_id}")
