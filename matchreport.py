@@ -2,6 +2,20 @@ import streamlit as st
 import pandas as pd
 from st_supabase_connection import SupabaseConnection
 import math
+import matplotlib.patheffects as path_effects
+from mplsoccer import Pitch
+import matplotlib.pyplot as plt
+import numpy as np
+import json
+import re
+import numpy as np
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import to_rgba
+from matplotlib import colors
+from mplsoccer import Pitch, FontManager, Sbopen, VerticalPitch
+path_eff = [path_effects.Stroke(linewidth=1.5, foreground='black'), path_effects.Normal()]
 import numpy as np
 
 # Initialize connection.
@@ -199,19 +213,7 @@ home_xt_df = xt_df[xt_df['team_id'] == home_team_id]
 
 # Filter data for away team
 away_xt_df = xt_df[xt_df['team_id'] == away_team_id]
-from mplsoccer import Pitch
-import matplotlib.pyplot as plt
-import numpy as np
-import json
-import re
-import numpy as np
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.colors import to_rgba
-from matplotlib import colors
-from mplsoccer import Pitch, FontManager, Sbopen, VerticalPitch
-path_eff = [path_effects.Stroke(linewidth=1.5, foreground='black'), path_effects.Normal()]
+
 
 # see the custom colormaps example for more ideas on setting colormaps
 pearl_earring_cmap = LinearSegmentedColormap.from_list("Pearl Earring - 10 colors", ['#15242e', '#4393c4'], N=10)
