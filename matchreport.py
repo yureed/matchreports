@@ -43,11 +43,6 @@ st.dataframe(consolidated_players)
 st.write("Consolidated Teams:")
 st.dataframe(consolidated_teams)
 
-# Execute queries and load data
-consolidated_defined_actions = query_table(sql_consolidated_defined_actions,'consolidated_defined_actions')
-consolidated_players = query_table(sql_consolidated_players,'consolidated_players')
-consolidated_teams = query_table(sql_consolidated_teams,'consolidated_teams')
-
 # Load CSV file for eng_premier_league_2324
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
 
