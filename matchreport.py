@@ -46,12 +46,14 @@ st.dataframe(consolidated_teams)
 # Load CSV file for eng_premier_league_2324
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
 
-# Assuming both DataFrames have a 'game_id' column
-common_game_ids = consolidated_defined_actions['game_id'].unique()
-st.write(len(common_game_ids))
-# Filter rows in eng_premier_league_2324 where game_id is in common_game_ids
-filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
+# Print the common game IDs for debugging
+st.write("Number of Common Game IDs:", len(common_game_ids))
+st.write("Common Game IDs:", common_game_ids)
 
+# Print additional information about the filtered DataFrame
+st.write("Number of Rows in filtered_df_games:", len(filtered_df_games))
+st.write("Head of filtered_df_games:")
+st.write(filtered_df_games.head())
 
 # Print the available matches for debugging
 available_matches = [f"{home_team} vs {away_team}" for home_team, away_team in zip(filtered_df_games['home_team'], filtered_df_games['away_team'])]
@@ -59,6 +61,7 @@ print("Available Matches:", available_matches)
 
 # Create a dropdown for selecting matches
 selected_match = st.selectbox('Select a match:', available_matches)
+
 
 # Extract home and away teams
 home_team, away_team = selected_match.split(' vs ')
