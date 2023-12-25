@@ -22,14 +22,23 @@ import numpy as np
 # Initialize connection.
 conn = st.connection("supabase", type=SupabaseConnection)
 
-def query_table(sql_query,table):
-    query_result = conn.query(table,sql_query)
-    return pd.DataFrame(query_result.data)
+# Function to query data from a table using a SQL query
+def query_table(sql_query):
+    query_result = conn.query(sql_query).execute()
+    if query_result.get('error'):
+        st.error(f"Error in query: {query_result['error']}")
+        return pd.DataFrame()
+    return pd.DataFrame(query_result.get('data', []))
 
-# Define SQL queries for each table
-sql_consolidated_defined_actions = 'SELECT * FROM consolidated_defined_actions'
-sql_consolidated_players = 'SELECT * FROM consolidated_players'
-sql_consolidated_teams = 'SELECT * FROM consolidated_teams'
+# Example SQL queries
+sql_defined_actions = "SELECT * FROM consolidated_defined_actions"
+sql_players = "SELECT * FROM consolidated_players"
+sql_teams = "SELECT * FROM consolidated_teams"
+
+# Execute queries and load data
+consolidated_defined_actions = query_table(sql_defined_actions)
+consolidated_players = query_table(sql_players)
+consolidated_teams = query_table(sql_teams)
 
 # Execute queries and load data
 consolidated_defined_actions = query_table(sql_consolidated_defined_actions,'consolidated_defined_actions')
