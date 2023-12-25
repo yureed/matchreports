@@ -1,26 +1,22 @@
 import streamlit as st
 import pandas as pd
-from st_supabase_connection import SupabaseConnection
+import psycopg2
 
-# Initialize the Supabase connection
-conn = st.connection("supabase", type=SupabaseConnection)
-
-# Replace 'your-url' and 'your-key' with your Supabase project URL and API key
-supabase_url = st.secrets["sb_url"]
-supabase_key = st.secrets["sb_api"]
-
-# Connect to Supabase
-supabase: Client = create_client(supabase_url, supabase_key)
+# Connect to the database
+conn = psycopg2.connect(
+    user=st.secrets["db_user"],
+    password=st.secrets["db_password"],
+    database=st.secrets["db_name"]
+)
 
 # Function to query data from a table
 def query_table(table_name):
-    data = supabase.table(table_name).select("*").execute()
-    if data.error:
-        st.error(f"Error fetching data from {table_name}: {data.error.message}")
-        return pd.DataFrame()
-    return pd.DataFrame(data.data)
+    with conn.cursor() as cur:
+        cur.execute(f"SELECT * FROM {table_name}")
+        rows = cur.fetchall()
+        return pd.DataFrame(rows, columns=[desc[0] for desc in cur.description])
 
-# Query and load data from Supabase
+# Query and load data from the database
 consolidated_defined_actions = query_table('consolidated_defined_actions')
 consolidated_players = query_table('consolidated_players')
 consolidated_teams = query_table('consolidated_teams')
@@ -40,4 +36,5 @@ for index, row in filtered_df_games.iterrows():
     match_name = f"{row['home_team']} vs {row['away_team']}"
     st.write(match_name)
 
-# Additional Streamlit features can be added as needed
+# Close the database connection
+conn.close()
