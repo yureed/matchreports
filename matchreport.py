@@ -23,7 +23,7 @@ import numpy as np
 conn = st.connection("supabase", type=SupabaseConnection)
 
 def query_table(sql_query):
-    query_result = conn.execute(sql_query)
+    query_result = conn.query(sql_query)
     return pd.DataFrame(query_result.data)
 
 # Define SQL queries for each table
