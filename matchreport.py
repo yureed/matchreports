@@ -22,23 +22,26 @@ import numpy as np
 # Initialize connection.
 conn = st.connection("supabase", type=SupabaseConnection)
 
-# Function to query data from a table using a SQL query
-def query_table(sql_query):
-    query_result = conn.query(sql_query).execute()
-    if query_result.get('error'):
-        st.error(f"Error in query: {query_result['error']}")
-        return pd.DataFrame()
-    return pd.DataFrame(query_result.get('data', []))
+# Function to query data from a table
+def query_table(table_name):
+    query_result = conn.query("*", table=table_name).execute()
+    return pd.DataFrame(query_result.data)
 
-# Example SQL queries
-sql_defined_actions = "SELECT * FROM consolidated_defined_actions"
-sql_players = "SELECT * FROM consolidated_players"
-sql_teams = "SELECT * FROM consolidated_teams"
 
-# Execute queries and load data
-consolidated_defined_actions = query_table(sql_defined_actions)
-consolidated_players = query_table(sql_players)
-consolidated_teams = query_table(sql_teams)
+
+# Query and load data from the database
+consolidated_defined_actions = query_table('consolidated_defined_actions')
+consolidated_players = query_table('consolidated_players')
+consolidated_teams = query_table('consolidated_teams')
+# Display tables in Streamlit
+st.write("Consolidated Defined Actions:")
+st.dataframe(consolidated_defined_actions)
+
+st.write("Consolidated Players:")
+st.dataframe(consolidated_players)
+
+st.write("Consolidated Teams:")
+st.dataframe(consolidated_teams)
 
 # Execute queries and load data
 consolidated_defined_actions = query_table(sql_consolidated_defined_actions,'consolidated_defined_actions')
