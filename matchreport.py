@@ -41,7 +41,12 @@ desired_game_id = filtered_df_games.loc[(filtered_df_games['home_team'] == home_
 # Now you can use desired_game_id as needed
 st.write(f"Selected Match: {selected_match}")
 st.write(f"Desired Game ID: {desired_game_id}")
-
+home_team_name = filtered_df_games.loc[filtered_df_games['game_id'] == desired_game_id, 'home_team'].values[0]
+# Find the team_id in consolidated_teams for the home team name
+home_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == home_team_name, 'team_id'].values[0]
+away_team_name = filtered_df_games.loc[filtered_df_games['game_id'] == desired_game_id, 'away_team'].values[0]
+# Find the team_id in consolidated_teams for the home team name
+away_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == away_team_name, 'team_id'].values[0]
 # Filter rows where 'game_id' is equal to the desired value
 arsenalwolves = consolidated_defined_actions[consolidated_defined_actions['game_id'] == desired_game_id]
 # Assuming 'arsenalwolves' is your DataFrame
