@@ -22,8 +22,8 @@ import numpy as np
 # Initialize connection.
 conn = st.connection("supabase", type=SupabaseConnection)
 
-def query_table(sql_query):
-    query_result = conn.query(sql_query)
+def query_table(sql_query,table):
+    query_result = conn.query(table,sql_query)
     return pd.DataFrame(query_result.data)
 
 # Define SQL queries for each table
@@ -32,9 +32,9 @@ sql_consolidated_players = 'SELECT * FROM consolidated_players'
 sql_consolidated_teams = 'SELECT * FROM consolidated_teams'
 
 # Execute queries and load data
-consolidated_defined_actions = query_table(sql_consolidated_defined_actions)
-consolidated_players = query_table(sql_consolidated_players)
-consolidated_teams = query_table(sql_consolidated_teams)
+consolidated_defined_actions = query_table(sql_consolidated_defined_actions,'consolidated_defined_actions')
+consolidated_players = query_table(sql_consolidated_players,'consolidated_players')
+consolidated_teams = query_table(sql_consolidated_teams,'consolidated_teams')
 
 # Load CSV file for eng_premier_league_2324
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
