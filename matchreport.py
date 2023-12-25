@@ -1,15 +1,10 @@
 import streamlit as st
 import pandas as pd
-import psycopg2
 import numpy as np
+from st_supabase_connection import SupabaseConnection
 
-# Connect to the database
-conn = psycopg2.connect(
-    user=st.secrets["db_user"],
-    password=st.secrets["db_password"],
-    database=st.secrets["db_name"],
-    host=st.secrets["db_host"]
-)
+# Initialize connection.
+conn = st.connection("supabase",type=SupabaseConnection)
 
 # Function to query data from a table
 def query_table(table_name):
