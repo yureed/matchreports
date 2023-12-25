@@ -48,7 +48,7 @@ eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
 
 # Assuming both DataFrames have a 'game_id' column
 common_game_ids = consolidated_defined_actions['game_id'].unique()
-
+st.write(len(common_game_ids))
 # Filter rows in eng_premier_league_2324 where game_id is in common_game_ids
 filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
 
