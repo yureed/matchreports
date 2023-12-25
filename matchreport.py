@@ -7,12 +7,9 @@ conn = st.connection("supabase", type=SupabaseConnection)
 
 # Function to query data from a table
 def query_table(table_name):
-    try:
-        query_result = conn.query("*", table=table_name).execute()
-        return pd.DataFrame(query_result.data)
-    except Exception as e:
-        st.error(f"Error fetching data from {table_name}: {e}")
-        return pd.DataFrame()
+    query_result = conn.query("*", table=table_name).execute()
+    return pd.DataFrame(query_result.data)
+
 
 
 # Query and load data from the database
