@@ -35,7 +35,8 @@ consolidated_players = query_table('consolidated_players')
 consolidated_teams = query_table('consolidated_teams')
 # Display tables in Streamlit
 st.write("Consolidated Defined Actions:")
-st.dataframe(consolidated_defined_actions)
+st.dataframe(consolidated_defined_actions, options={'max_rows': None})
+
 
 st.write("Consolidated Players:")
 st.dataframe(consolidated_players)
