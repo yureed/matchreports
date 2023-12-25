@@ -1,5 +1,5 @@
 seaborn
-psycopg2-binary
+st-supabase-connection
 mplsoccer
 matplotlib
 highlight_text
