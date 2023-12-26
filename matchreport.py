@@ -57,8 +57,8 @@ def query_table_by_game_id(table_name, selected_game_id):
 
 # Query and load data from the database for the selected_game_id
 consolidated_defined_actions = query_table_by_game_id('consolidated_defined_actions', selected_game_id)
-
-st.dataframe(consolidated_teams)
+st.write(desired_game_id)
+st.dataframe(consolidated_defined_actions)
 
 match_info = eng_premier_league_2324.loc[eng_premier_league_2324['game_id'] == selected_game_id]
 home_team_name = match_info['home_team'].values[0]
