@@ -33,43 +33,20 @@ def query_table(table_name):
 consolidated_defined_actions = query_table('consolidated_defined_actions')
 consolidated_players = query_table('consolidated_players')
 consolidated_teams = query_table('consolidated_teams')
-# Display tables in Streamlit
-st.write("Consolidated Defined Actions:")
-st.write(len(consolidated_defined_actions))
-st.dataframe(consolidated_defined_actions)
+match_options = eng_premier_league_2324['home_team'] + ' vs ' + eng_premier_league_2324['away_team']
+selected_match = st.selectbox('Select a match:', match_options)
 
+# Get the selected home_team and away_team
+selected_home_team, selected_away_team = selected_match.split(' vs ')
 
-st.write("Consolidated Players:")
-st.dataframe(consolidated_players)
+# Find the corresponding game_id
+selected_game_id = eng_premier_league_2324.loc[
+    (eng_premier_league_2324['home_team'] == selected_home_team) & 
+    (eng_premier_league_2324['away_team'] == selected_away_team), 'game_id'].values[0]
 
-st.write("Consolidated Teams:")
-st.dataframe(consolidated_teams)
-
-# Load CSV file for eng_premier_league_2324
-eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
-
-common_game_ids = consolidated_defined_actions['game_id'].unique()
-filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
-# Print the common game IDs for debugging
-st.write("Number of Common Game IDs:", len(common_game_ids))
-st.write("Common Game IDs:", common_game_ids)
-
-# Print additional information about the filtered DataFrame
-st.write("Number of Rows in filtered_df_games:", len(filtered_df_games))
-st.write("Head of filtered_df_games:")
-st.write(filtered_df_games.head())
-
-# Print the available matches for debugging
-available_matches = [f"{home_team} vs {away_team}" for home_team, away_team in zip(filtered_df_games['home_team'], filtered_df_games['away_team'])]
-print("Available Matches:", available_matches)
-
-# Create a dropdown for selecting matches
-selected_match = st.selectbox('Select a match:', available_matches)
-
-
-# Extract home and away teams
-home_team, away_team = selected_match.split(' vs ')
-
+# Display the selected match and its game_id
+st.write(f'Selected Match: {selected_match}')
+st.write(f'Desired game_id: {selected_game_id}')
 # Find the corresponding game_id in filtered_df_games
 desired_game_id = filtered_df_games.loc[(filtered_df_games['home_team'] == home_team) & (filtered_df_games['away_team'] == away_team), 'game_id'].values[0]
 
