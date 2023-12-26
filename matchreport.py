@@ -57,6 +57,8 @@ def query_table_by_game_id(table_name, selected_game_id):
 
 # Query and load data from the database for the selected_game_id
 consolidated_defined_actions = query_table_by_game_id('consolidated_defined_actions', selected_game_id)
+query_result = conn.query("*", table='consolidated_defined_actions').eq('game_id', selected_game_id).execute()
+st.write(query_result)
 st.write(desired_game_id)
 st.dataframe(consolidated_defined_actions)
 
