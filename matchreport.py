@@ -148,14 +148,9 @@ def get_passes_between_df(team_id, passes_df, players_df):
     return passes_between_df, average_locs_and_count_df
 
 # Get the home team name for the specified game_id
-home_team_name = filtered_df_games.loc[filtered_df_games['game_id'] == desired_game_id, 'home_team'].values[0]
-# Find the team_id in consolidated_teams for the home team name
-home_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == home_team_name, 'team_id'].values[0]
+
 home_passes_between_df, home_average_locs_and_count_df = get_passes_between_df(home_team_id, passes_df, players_df)
-# Get the home team name for the specified game_id
-away_team_name = filtered_df_games.loc[filtered_df_games['game_id'] == desired_game_id, 'away_team'].values[0]
-# Find the team_id in consolidated_teams for the home team name
-away_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == away_team_name, 'team_id'].values[0]
+
 away_passes_between_df, away_average_locs_and_count_df = get_passes_between_df(away_team_id, passes_df, players_df)
 import matplotlib.pyplot as plt
 from mplsoccer import Pitch
