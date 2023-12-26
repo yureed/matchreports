@@ -33,6 +33,8 @@ def query_table(table_name):
 consolidated_defined_actions = query_table('consolidated_defined_actions')
 consolidated_players = query_table('consolidated_players')
 consolidated_teams = query_table('consolidated_teams')
+
+eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
 match_options = eng_premier_league_2324['home_team'] + ' vs ' + eng_premier_league_2324['away_team']
 selected_match = st.selectbox('Select a match:', match_options)
 
