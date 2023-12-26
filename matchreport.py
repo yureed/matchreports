@@ -28,9 +28,6 @@ def query_table(table_name):
     return pd.DataFrame(query_result.data)
 
 
-
-# Query and load data from the database
-consolidated_defined_actions = query_table('consolidated_defined_actions')
 consolidated_players = query_table('consolidated_players')
 consolidated_teams = query_table('consolidated_teams')
 
@@ -50,17 +47,27 @@ selected_game_id = eng_premier_league_2324.loc[
 st.write(f'Selected Match: {selected_match}')
 st.write(f'Desired game_id: {selected_game_id}')
 # Find the corresponding game_id in filtered_df_games
-desired_game_id = filtered_df_games.loc[(filtered_df_games['home_team'] == home_team) & (filtered_df_games['away_team'] == away_team), 'game_id'].values[0]
+desired_game_id = selected_game_id
 
-# Now you can use desired_game_id as needed
-st.write(f"Selected Match: {selected_match}")
-st.write(f"Desired Game ID: {desired_game_id}")
-home_team_name = filtered_df_games.loc[filtered_df_games['game_id'] == desired_game_id, 'home_team'].values[0]
-# Find the team_id in consolidated_teams for the home team name
+# Function to query data from a table based on game_id
+def query_table_by_game_id(table_name, selected_game_id):
+    # Use a WHERE clause to filter rows based on the selected_game_id
+    query_result = conn.query("*", table=table_name).eq('game_id', selected_game_id).execute()
+    return pd.DataFrame(query_result.data)
+
+# Query and load data from the database for the selected_game_id
+selected_game_data = query_table_by_game_id('consolidated_defined_actions', desired_game_id)
+
+
+
+match_info = eng_premier_league_2324.loc[eng_premier_league_2324['game_id'] == selected_game_id]
+home_team_name = match_info['home_team'].values[0]
+away_team_name = match_info['away_team'].values[0]
+
+# Use consolidated_teams to get team_id for home and away teams
 home_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == home_team_name, 'team_id'].values[0]
-away_team_name = filtered_df_games.loc[filtered_df_games['game_id'] == desired_game_id, 'away_team'].values[0]
-# Find the team_id in consolidated_teams for the home team name
 away_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == away_team_name, 'team_id'].values[0]
+
 # Filter rows where 'game_id' is equal to the desired value
 arsenalwolves = consolidated_defined_actions[consolidated_defined_actions['game_id'] == desired_game_id]
 # Assuming 'arsenalwolves' is your DataFrame
