@@ -9,7 +9,6 @@ import numpy as np
 import json
 from matplotlib.colors import LinearSegmentedColormap
 import re
-import numpy as np
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -304,6 +303,7 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
                                                     / average_locs_and_count_df['count'].max() * MAX_MARKER_SIZE)
     
         MIN_TRANSPARENCY = 0.3
+        import numpy as np
         color = np.array(to_rgba('black'))
         color = np.tile(color, (len(passes_between_df), 1))
         c_transparency = passes_between_df.pass_count / passes_between_df.pass_count.max()
