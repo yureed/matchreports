@@ -35,17 +35,21 @@ consolidated_players = conn.read(
     ttl="10m"
 )
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
+common_game_ids = consolidated_defined_actions['game_id'].unique()
+
+# Filter rows in eng_premier_league_2324 where game_id is in common_game_ids
+filtered_df_games = eng_premier_league_2324[eng_premier_league_2324['game_id'].isin(common_game_ids)]
 
 # Create a sidebar with match selection
-selected_match = st.sidebar.selectbox('Select a match:', eng_premier_league_2324['home_team'] + ' vs ' + eng_premier_league_2324['away_team'])
+selected_match = st.sidebar.selectbox('Select a match:', filtered_df_games['home_team'] + ' vs ' + filtered_df_games['away_team'])
 
 # Get the selected home_team and away_team
 selected_home_team, selected_away_team = selected_match.split(' vs ')
 
 # Find the corresponding game_id
-selected_game_id = eng_premier_league_2324.loc[
-    (eng_premier_league_2324['home_team'] == selected_home_team) & 
-    (eng_premier_league_2324['away_team'] == selected_away_team), 'game_id'].values[0]
+selected_game_id = filtered_df_games.loc[
+    (filtered_df_games['home_team'] == selected_home_team) & 
+    (filtered_df_games['away_team'] == selected_away_team), 'game_id'].values[0]
 
 # Display the selected match and its game_id
 st.write(f'Selected Match: {selected_match}')
