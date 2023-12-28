@@ -1086,7 +1086,7 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
 
 if report_type == 'Team Report':
     if selected_team_report == 'General Report':
-        general_report(home_passes_between_df,home_average_locs_and_count_df,away_passes_between_df,away_average_locs_and_count_df.
+        general_report(home_passes_between_df,home_average_locs_and_count_df,away_passes_between_df,away_average_locs_and_count_df,
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     else:
