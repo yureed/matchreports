@@ -555,7 +555,7 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
     st.pyplot(fig)
 
 
-def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
+def team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
                 passes_away_final_third,passes_home_final_third):
     
     fig = plt.figure(figsize=(20, 20))
@@ -570,8 +570,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
     away_plot_ax =fig.add_subplot(grid[1:6, 2:4])
     away_plot_ax.set_facecolor('white')
     if selected_team_report == 'Passes':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'] == 'pass']
         away_plot = away_plot[away_plot['type_name'] == 'pass']
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -616,8 +616,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
 
 
     elif selected_team_report == 'Shot':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'].isin(['shot', 'shot_penalty'])]
         away_plot = away_plot[away_plot['type_name'].isin(['shot', 'shot_penalty'])]
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -658,8 +658,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
     elif selected_team_report == 'Dribbles/Carries':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'] == 'dribble']
         away_plot = away_plot[away_plot['type_name'] == 'dribble']
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -700,8 +700,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
     elif selected_team_report == 'Take Ons':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'] == 'take_on']
         away_plot = away_plot[away_plot['type_name'] == 'take_on']
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -737,8 +737,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
     elif selected_team_report == 'Progressive Actions':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[(home_plot['type_name'].isin(['pass', 'dribble'])) & (home_plot['progressive'] == True)]
         away_plot = away_plot[(away_plot['type_name'].isin(['pass', 'dribble'])) & (away_plot['progressive'] == True)]
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -791,8 +791,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         st.pyplot(fig)
     elif selected_team_report == 'Free Kick':
         
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         
         home_plot = home_plot[home_plot['type_name'].isin(['freekick_crossed', 'freekick_short'])]
         away_plot = away_plot[away_plot['type_name'].isin(['freekick_crossed', 'freekick_short'])]
@@ -888,8 +888,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         st.pyplot(fig)
                 
     elif selected_team_report == 'Defensive Actions':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'].isin(['tackle', 'interception','clearance','foul'])]
         away_plot = away_plot[away_plot['type_name'].isin(['tackle', 'interception','clearance','foul'])]
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -958,8 +958,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
     elif selected_team_report == 'Throw In':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'] == 'throw_in']
         away_plot = away_plot[away_plot['type_name'] == 'throw_in']
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -1000,8 +1000,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
     elif selected_team_report == 'Corner':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'] == 'corner_crossed']
         away_plot = away_plot[away_plot['type_name'] == 'corner_crossed']
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -1042,8 +1042,8 @@ def team_reports(arsenalwolves,selected_team_report,passes_home_penalty_area,pas
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
     elif selected_team_report == 'Cross':
-        home_plot = arsenalwolves[arsenalwolves['team_id'] == home_team_id]
-        away_plot = arsenalwolves[arsenalwolves['team_id'] == away_team_id]
+        home_plot = matchdataframe[matchdataframe['team_id'] == home_team_id]
+        away_plot = matchdataframe[matchdataframe['team_id'] == away_team_id]
         home_plot = home_plot[home_plot['type_name'] == 'cross']
         away_plot = away_plot[away_plot['type_name'] == 'cross']
         successful_home_plot = home_plot[home_plot['result_name'] == 'success']
@@ -1090,6 +1090,6 @@ if report_type == 'Team Report':
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     else:
-        team_reports(arsenalwolves,'Defensive Actions',passes_home_penalty_area,passes_away_penalty_area,
+        team_reports(matchdataframe,'Defensive Actions',passes_home_penalty_area,passes_away_penalty_area,
                 passes_away_final_third,passes_home_final_third)
 
