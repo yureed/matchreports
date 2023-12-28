@@ -464,7 +464,8 @@ shortened_names = {
     'Manchester United': 'Man Utd',
     'Manchester City': 'Man City',
     'Sheffield United': 'Sheff Utd',
-    'Newcastle': 'New Utd'
+    'Newcastle': 'New Utd',
+    'Bournemouth': 'B'mouth'
     # Add more mappings as needed
 }
 
