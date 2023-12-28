@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from st_supabase_connection import SupabaseConnection
 import math
 import matplotlib.patheffects as path_effects
 from mplsoccer import Pitch
@@ -19,45 +18,6 @@ from mplsoccer import Pitch, FontManager, Sbopen, VerticalPitch
 path_eff = [path_effects.Stroke(linewidth=1.5, foreground='black'), path_effects.Normal()]
 import numpy as np
 
-# Initialize connection.
-conn = st.connection("supabase", type=SupabaseConnection)
-
-# Function to query data from a table
-def query_table(table_name):
-    query_result = conn.query("*", table=table_name).execute()
-    return pd.DataFrame(query_result.data)
-
-
-consolidated_players = query_table('consolidated_players')
-consolidated_teams = query_table('consolidated_teams')
-
-eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
-match_options = eng_premier_league_2324['home_team'] + ' vs ' + eng_premier_league_2324['away_team']
-selected_match = st.selectbox('Select a match:', match_options)
-
-# Get the selected home_team and away_team
-selected_home_team, selected_away_team = selected_match.split(' vs ')
-
-# Find the corresponding game_id
-selected_game_id = eng_premier_league_2324.loc[
-    (eng_premier_league_2324['home_team'] == selected_home_team) & 
-    (eng_premier_league_2324['away_team'] == selected_away_team), 'game_id'].values[0]
-
-# Display the selected match and its game_id
-st.write(f'Selected Match: {selected_match}')
-st.write(f'Desired game_id: {selected_game_id}')
-# Find the corresponding game_id in filtered_df_games
-desired_game_id = selected_game_id
-
-# Function to query data from a table based on game_id
-def query_table_by_game_id(table_name, selected_game_id):
-    # Use a WHERE clause to filter rows based on the selected_game_id
-    query_result = conn.query("*", table=table_name).eq('game_id', selected_game_id).execute()
-    return pd.DataFrame(query_result.data)
-
-# Query and load data from the database for the selected_game_id
-consolidated_defined_actions = query_table_by_game_id('consolidated_defined_actions', selected_game_id)
-st.dataframe(consolidated_defined_actions)
 
 match_info = eng_premier_league_2324.loc[eng_premier_league_2324['game_id'] == selected_game_id]
 home_team_name = match_info['home_team'].values[0]
