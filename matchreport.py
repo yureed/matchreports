@@ -51,7 +51,7 @@ selected_game_id = eng_premier_league_2324.loc[
 # Display the selected match and its game_id
 st.write(f'Selected Match: {selected_match}')
 st.write(f'Desired game_id: {selected_game_id}')
-
+desired_game_id = selected_game_id
 match_info = eng_premier_league_2324.loc[eng_premier_league_2324['game_id'] == selected_game_id]
 home_team_name = match_info['home_team'].values[0]
 away_team_name = match_info['away_team'].values[0]
