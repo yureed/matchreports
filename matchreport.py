@@ -246,12 +246,9 @@ def pass_network_visualization(ax, passes_between_df, average_locs_and_count_df,
     pitch = VerticalPitch(pitch_type='opta', pitch_color='white', line_color='black')
     pitch.draw(ax=ax)
 
-    if flipped:
-        passes_between_df['start_x'] = pitch.dim.right - passes_between_df['start_x']
+     if flipped:
         passes_between_df['start_y'] = pitch.dim.right - passes_between_df['start_y']
-        passes_between_df['start_x_end'] = pitch.dim.right - passes_between_df['start_x_end']
         passes_between_df['start_y_end'] = pitch.dim.right - passes_between_df['start_y_end']
-        average_locs_and_count_df['start_x'] = pitch.dim.right - average_locs_and_count_df['start_x']
         average_locs_and_count_df['start_y'] = pitch.dim.right - average_locs_and_count_df['start_y']
 
     pass_lines = pitch.lines(passes_between_df.start_x, passes_between_df.start_y,
