@@ -90,6 +90,21 @@ for index, row in arsenalwolves.iterrows():
         continue
 
 goal_rows = arsenalwolves[arsenalwolves['goal_from_shot']]
+# Check if there are rows with 'owngoal' in result_name
+owngoal_rows_arsenalwolves = arsenalwolves[arsenalwolves['result_name'] == 'owngoal']
+
+# Initialize goal_rows as an empty DataFrame if it hasn't been defined yet or if it's not a DataFrame
+if not isinstance(goal_rows, pd.DataFrame):
+    goal_rows = pd.DataFrame()
+
+# If there are 'owngoal' rows, add them to goal_rows with the appropriate team_id
+if not owngoal_rows_arsenalwolves.empty:
+    for index, row in owngoal_rows_arsenalwolves.iterrows():
+        if row['team_id'] == home_team_id:
+            row['team_id'] = away_team_id
+        else:
+            row['team_id'] = home_team_id
+        goal_rows = pd.concat([goal_rows, pd.DataFrame([row])], ignore_index=True)
 
 # Counting the number of rows where team_id is equal to home_team_id
 home_team_goal_count = goal_rows[goal_rows['team_id'] == home_team_id]
