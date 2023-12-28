@@ -59,6 +59,8 @@ away_team_name = match_info['away_team'].values[0]
 
 # Use consolidated_teams to get team_id for home and away teams
 home_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == home_team_name, 'team_id'].values[0]
+st.write(home_team_name)
+st.write(away_team_name)
 away_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == away_team_name, 'team_id'].values[0]
 
 # Filter rows where 'game_id' is equal to the desired value
