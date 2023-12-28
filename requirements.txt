@@ -1,7 +1,7 @@
 seaborn
 mplsoccer
 matplotlib
-streamlit_gsheets
+st-gsheets-connection
 highlight_text
 matplotlib
 numpy
