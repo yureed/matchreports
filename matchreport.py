@@ -62,7 +62,8 @@ home_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == home_te
 away_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == away_team_name, 'team_id'].values[0]
 
 # Filter rows where 'game_id' is equal to the desired value
-arsenalwolves = consolidated_defined_actions
+filtered-rows = consolidated_defined_actions[consolidated_defined_actions['game_id']==desired_game_id]
+arsenalwolves = filtered-rows
 # Assuming 'arsenalwolves' is your DataFrame
 arsenalwolves['receiver'] = arsenalwolves['player_id'].shift(-1)
 
