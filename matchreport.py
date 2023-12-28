@@ -1090,6 +1090,6 @@ if report_type == 'Team Report':
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     else:
-        team_reports(matchdataframe,'Defensive Actions',passes_home_penalty_area,passes_away_penalty_area,
+        team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
                 passes_away_final_third,passes_home_final_third)
 
