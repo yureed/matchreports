@@ -56,7 +56,6 @@ match_info = eng_premier_league_2324.loc[eng_premier_league_2324['game_id'] == s
 home_team_name = match_info['home_team'].values[0]
 away_team_name = match_info['away_team'].values[0]
 
-st.dataframe(consolidated_defined_actions)
 
 # Use consolidated_teams to get team_id for home and away teams
 home_team_id = consolidated_teams.loc[consolidated_teams['team_name'] == home_team_name, 'team_id'].values[0]
