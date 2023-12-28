@@ -106,7 +106,6 @@ unique_columns = passes_df.columns.unique()
 desired_types = ['pass']
 xt_df = arsenalwolves[arsenalwolves['type_name'].isin(desired_types)]
 
-st.dataframe(passes_df)
 
 def get_passes_between_df(team_id, passes_df, players_df):
     # filter for only team
