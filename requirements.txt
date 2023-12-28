@@ -1,5 +1,4 @@
 seaborn
-streamlit_gsheets
 mplsoccer
 matplotlib
 highlight_text
