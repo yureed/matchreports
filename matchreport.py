@@ -277,7 +277,7 @@ home_xt_df = xt_df[xt_df['team_id'] == home_team_id]
 # Filter data for away team
 away_xt_df = xt_df[xt_df['team_id'] == away_team_id]
 
-def general_report(home_passes_between_df,home_average_locs_and_count_df,away_passes_between_df,away_average_locs_and_count_df.
+def general_report(home_passes_between_df,home_average_locs_and_count_df,away_passes_between_df,away_average_locs_and_count_df,
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name):
                       
