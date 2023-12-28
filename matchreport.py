@@ -445,8 +445,24 @@ away_ft_ax.set_title('Away Passes Into Final Third', fontsize='15', color='purpl
 home_goal = len(home_team_goal_count)
 away_goal = len(away_team_goal_count)
 scoreline_ax = fig.add_subplot(grid[0:2, 4:10])
+shortened_names = {
+    'Manchester United': 'Man Utd',
+    'Manchester City': 'Man City',
+    'Sheffield United': 'Sheff Utd',
+    'Newcastle': 'New Utd'
+    # Add more mappings as needed
+}
 
-scoreline_text = f'{home_team_name} {home_goal} - {away_goal} {away_team_name}'
+if home_team_name in shortened_names:
+    home_team_shortened = shortened_names[home_team_name]
+else:
+    home_team_shortened = home_team_name
+
+if away_team_name in shortened_names:
+    away_team_shortened = shortened_names[away_team_name]
+else:
+    away_team_shortened = away_team_name
+scoreline_text = f'{home_team_shortened} {home_goal} - {away_goal} {away_team_shortened}'
 
 scoreline_ax.text(0.5, 0.5, scoreline_text, color=TEXT_COLOR,
                   va='center', ha='center', fontdict={'weight': 'bold', 'size': BOLD_FONT_SIZE, 'family': 'Arial'})
