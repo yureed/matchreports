@@ -18,6 +18,39 @@ from mplsoccer import Pitch, FontManager, Sbopen, VerticalPitch
 path_eff = [path_effects.Stroke(linewidth=1.5, foreground='black'), path_effects.Normal()]
 import numpy as np
 
+from streamlit_gsheets import GSheetsConnection
+
+# Create a connection object.
+conn = st.connection("gsheets", type=GSheetsConnection)
+consolidated_defined_actions = conn.read(
+    worksheet="events",
+    ttl="10m"
+)
+consolidated_teams = conn.read(
+    worksheet="teams",
+    ttl="10m"
+)
+consolidated_players = conn.read(
+    worksheet="players",
+    ttl="10m"
+)
+eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
+
+# Create a dropdown list of match options
+match_options = eng_premier_league_2324['home_team'] + ' vs ' + eng_premier_league_2324['away_team']
+selected_match = st.selectbox('Select a match:', match_options)
+
+# Get the selected home_team and away_team
+selected_home_team, selected_away_team = selected_match.split(' vs ')
+
+# Find the corresponding game_id
+selected_game_id = eng_premier_league_2324.loc[
+    (eng_premier_league_2324['home_team'] == selected_home_team) & 
+    (eng_premier_league_2324['away_team'] == selected_away_team), 'game_id'].values[0]
+
+# Display the selected match and its game_id
+st.write(f'Selected Match: {selected_match}')
+st.write(f'Desired game_id: {selected_game_id}')
 
 match_info = eng_premier_league_2324.loc[eng_premier_league_2324['game_id'] == selected_game_id]
 home_team_name = match_info['home_team'].values[0]
