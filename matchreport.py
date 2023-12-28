@@ -367,7 +367,7 @@ momentumax.set_title('Momentum Chart', fontsize='15', color=TEXT_COLOR,weight='b
 momentumax.fill_between(passes_total['minute'], passes_total['dif_pass'], where=passes_total['dif_pass'] > 0, color='red', alpha=0.3, interpolate=True)
 momentumax.fill_between(passes_total['minute'], passes_total['dif_pass'], where=passes_total['dif_pass'] <= 0, color='violet', alpha=0.3, interpolate=True)
 # Filtering the rows where goals were scored
-goals = arsenalwolves[arsenalwolves['goal_from_shot']]
+goals = goal_rows
 
 # Enhancing the plot
 momentumax.axhline(0, color='black', linewidth=1)
