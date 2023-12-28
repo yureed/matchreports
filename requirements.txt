@@ -1,5 +1,5 @@
 seaborn
-st-supabase-connection
+streamlit_gsheets
 mplsoccer
 matplotlib
 highlight_text
