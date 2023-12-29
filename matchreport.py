@@ -1087,6 +1087,243 @@ def team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,pa
         plt.suptitle(f'{home_team_name} vs {away_team_name} - {selected_team_report}', fontsize=26, fontweight='bold', color='black',x=0.43)
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
+def player_reports(arsenalwolves,selected_player_report,selected_player_id,selected_player_name,passes_final_third,passes_penalty_area):
+    player_plot = arsenalwolves[arsenalwolves['player_id'] == selected_player_id]
+    
+    # Assuming you have already defined 'arsenalwolves', 'grid', 'VerticalPitch' before this code snippet
+    fig, ax = plt.subplots(figsize=(27,16))
+    fig.set_facecolor('white')
+
+    pitch = VerticalPitch(pitch_type='opta', pitch_color='white', line_color='black')
+    pitch.draw(ax=ax)
+
+    if selected_player_report == 'Passes':
+        player_plot = player_plot[player_plot['type_name'] == 'pass']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful Passes',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=2, headwidth=3, label='Unsuccessful Passes',
+                          color='red', ax=ax, alpha=.99)
+
+
+        l = ax.legend(shadow=True, loc='lower center', ncol=2, prop={'size': 15}, facecolor='black', edgecolor='#22312b')
+        for text in l.get_texts():
+            text.set_color("white")
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+
+
+
+
+    elif selected_player_report == 'Shot':
+        player_plot = player_plot[player_plot['type_name'] == 'shot']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Goal',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=2, headwidth=3, label='No Goal',
+                          color='red', ax=ax, alpha=.99)
+
+
+        l = ax.legend(shadow=True, loc='lower center', ncol=2, prop={'size': 15}, facecolor='black', edgecolor='#22312b')
+        for text in l.get_texts():
+            text.set_color("white")
+        plt.suptitle(f'{selected_player_id} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+    elif selected_player_report == 'Dribbles/Carries':
+        player_plot = player_plot[player_plot['type_name'] == 'dribble']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful',
+                          color='green', ax=ax, alpha=.99)
+
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Take Ons':
+        player_plot = player_plot[player_plot['type_name'] == 'take_on']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=25, headwidth=3, label='Successful Take On',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=25, headwidth=3, label='Unsuccessful Take On',
+                          color='red', ax=ax, alpha=.99)
+
+
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Progressive Actions':
+        player_plot = player_plot[(player_plot['type_name'].isin(['pass', 'dribble'])) & (player_plot['progressive'] == True)]
+        print(player_plot)
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        successful_pass_player_plot = successful_player_plot[successful_player_plot['type_name'] == 'pass']
+        successful_dribble_player_plot = successful_player_plot[successful_player_plot['type_name'] == 'dribble']
+        pitch.arrows(successful_pass_player_plot['start_x'], successful_pass_player_plot['start_y'],
+                          successful_pass_player_plot['end_x'], successful_pass_player_plot['end_y'],
+                          width=2, headwidth=3, label='Pass',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(successful_dribble_player_plot['start_x'], successful_dribble_player_plot['start_y'],
+                          successful_dribble_player_plot['end_x'], successful_dribble_player_plot['end_y'],
+                          width=2, headwidth=3, label='Carry',
+                          color='blue', ax=ax, alpha=.99)
+
+
+        l = ax.legend(shadow=True, loc='lower center', ncol=2, prop={'size': 15}, facecolor='black', edgecolor='#22312b')
+        for text in l.get_texts():
+            text.set_color("white")
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Free Kick':
+        player_plot = player_plot[player_plot['type_name'].isin(['freekick_short', 'freekick_crossed'])]
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful Freekick',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=2, headwidth=3, label='Unsuccessful Freekick',
+                          color='red', ax=ax, alpha=.99)
+
+
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Passes Into Final Third':
+        player_plot = passes_final_third[passes_final_third['player_id'] == selected_player_id]
+        pitch.arrows(player_plot['start_x'], player_plot['start_y'],
+                          player_plot['end_x'], player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful Passes',
+                          color='green', ax=ax, alpha=.99)
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+
+        
+    elif selected_player_report == 'Passes Into Penalty Area':
+        player_plot = passes_penalty_area[passes_penalty_area['player_id'] == selected_player_id]
+        pitch.arrows(player_plot['start_x'], player_plot['start_y'],
+                          player_plot['end_x'], player_plot['end_y'],
+                          width=25, headwidth=3, label='Successful Passes',
+                          color='green', ax=ax, alpha=.99)
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+
+        
+                
+    elif selected_player_report == 'Defensive Actions':
+        player_plot = player_plot[player_plot['type_name'].isin(['tackle', 'interception','clearance','foul'])]
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        legend_labels = []
+        legend_elements = []
+
+        # Plot successful and unsuccessful arrows for home team
+        for type_name, color, marker in zip(['tackle', 'interception', 'clearance', 'foul'],
+                                            ['blue', 'orange', 'purple', 'yellow'],
+                                            ['o', '^', 's', 'D']):
+            type_success_home_plot = successful_player_plot[successful_player_plot['type_name'] == type_name]
+            type_fail_home_plot = fail_player_plot[fail_player_plot['type_name'] == type_name]
+
+            # Plot successful actions with different markers and only show start_x and start_y
+            scatter_success = pitch.scatter(type_success_home_plot['start_x'], type_success_home_plot['start_y'],
+                  s=100, color='green', marker=marker, label=f'{type_name} Successful', ax=ax, alpha=0.99)
+
+            # Plot unsuccessful arrows with different markers and only show start_x and start_y
+            scatter_fail = pitch.scatter(type_fail_home_plot['start_x'], type_fail_home_plot['start_y'],
+                  s=100, color='red', marker=marker, label=f'{type_name} Unsuccessful', ax=ax, alpha=0.99)
+            legend_labels.append(f'{type_name}')
+            legend_elements.append((scatter_success, scatter_fail))
+
+
+        # Add legend for home team
+        ax = ax.legend(legend_elements, legend_labels, handler_map={tuple: HandlerTuple(ndivide=None)},
+                                  loc='lower center', ncol=2, prop={'size': 8},
+                                  facecolor='black', edgecolor='#22312b')
+        for text in ax.get_texts():
+            text.set_color("white")
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Throw In':
+        player_plot = player_plot[player_plot['type_name'] == 'throw_in']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful Throw In',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=2, headwidth=3, label='Unsuccessful Trhow In',
+                          color='red', ax=ax, alpha=.99)
+
+
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Corner':
+        player_plot = player_plot[player_plot['type_name'] == 'corner']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful Corner',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=2, headwidth=3, label='Unsuccessful Corner',
+                          color='red', ax=ax, alpha=.99)
+
+
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
+    elif selected_player_report == 'Cross':
+        player_plot = player_plot[player_plot['type_name'] == 'cross']
+        successful_player_plot = player_plot[player_plot['result_name'] == 'success']
+        fail_player_plot = player_plot[player_plot['result_name'] == 'fail']
+        pitch.arrows(successful_player_plot['start_x'], successful_player_plot['start_y'],
+                          successful_player_plot['end_x'], successful_player_plot['end_y'],
+                          width=2, headwidth=3, label='Successful Cross',
+                          color='green', ax=ax, alpha=.99)
+        pitch.arrows(fail_player_plot['start_x'], fail_player_plot['start_y'],
+                          fail_player_plot['end_x'], fail_player_plot['end_y'],
+                          width=2, headwidth=3, label='Unsuccessful Cross',
+                          color='red', ax=ax, alpha=.99)
+
+
+       
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
 
 if report_type == 'Team Report':
     if selected_team_report == 'General Report':
@@ -1096,4 +1333,8 @@ if report_type == 'Team Report':
     else:
         team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
                 passes_away_final_third,passes_home_final_third)
+elif report_type =='Player Report':
+    passes_penalty_area = pd.concat([passes_away_penalty_area, passes_home_penalty_area], ignore_index=True)
+    passes_final_third = pd.concat([passes_away_final_third, passes_home_final_third], ignore_index=True)
+    player_reports(arsenalwolves,selected_player_report,selected_player_id,selected_player_name,passes_final_third,passes_penalty_area)
 
