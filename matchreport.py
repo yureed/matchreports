@@ -21,7 +21,6 @@ import numpy as np
 from streamlit_gsheets import GSheetsConnection
 
 # Create a connection object.
-@st.cache(ttl=24*3600)
 conn = st.connection("gsheets", type=GSheetsConnection)
 @st.cache
 consolidated_defined_actions = conn.read(
