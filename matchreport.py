@@ -131,14 +131,24 @@ mask = (matchdataframe['start_x'] == matchdataframe['end_x']) & (matchdataframe[
 
 # If the type_name is dribble, replace it with 'take_on'
 matchdataframe.loc[mask & (matchdataframe['type_name'] == 'dribble'), 'type_name'] = 'take_on'
-matchdataframe['beginning'] = np.sqrt(np.square(100-matchdataframe['start_x']) + np.square(40 - matchdataframe['start_y']))
-matchdataframe['end'] = np.sqrt(np.square(100 - matchdataframe['end_x']) + np.square(40 - matchdataframe['end_y']))
+own_half = 50
+opponents_half = 50
+
 matchdataframe['progressive'] = False
 
 for index, row in matchdataframe.iterrows():
     try:
-        if (row['end']) / (row['beginning']) < 0.75 :
-            matchdataframe.loc[index,'progressive'] = True
+        start_in_own_half = row['start_x'] <= own_half
+        end_in_own_half = row['end_x'] <= own_half
+        start_in_opponents_half = row['start_x'] > opponents_half
+        end_in_opponents_half = row['end_x'] > opponents_half
+
+        condition1 = start_in_own_half and end_in_own_half and (row['end_x'] - row['start_x']) >= 30
+        condition2 = start_in_own_half and end_in_opponents_half and (row['end_x'] - row['start_x']) >= 15
+        condition3 = start_in_opponents_half and end_in_opponents_half and (row['end_x'] - row['start_x']) >= 10
+
+        if condition1 or condition2 or condition3:
+            matchdataframe.loc[index, 'progressive'] = True
     except:
         continue
 
