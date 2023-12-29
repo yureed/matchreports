@@ -21,15 +21,19 @@ import numpy as np
 from streamlit_gsheets import GSheetsConnection
 
 # Create a connection object.
+@st.cache(ttl=24*3600)
 conn = st.connection("gsheets", type=GSheetsConnection)
+@st.cache
 consolidated_defined_actions = conn.read(
     worksheet="events",
     ttl="10m"
 )
+@st.cache(ttl=24*3600)
 consolidated_teams = conn.read(
     worksheet="teams",
     ttl="10m"
 )
+@st.cache(ttl=24*3600)
 consolidated_players = conn.read(
     worksheet="players",
     ttl="10m"
