@@ -379,7 +379,7 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
     ax_home_passing.set_title('Home Passing Network', fontsize=15, color='red',weight='bold')
     
     ax_away_passing = fig.add_subplot(grid[0:5, 10:14])
-    pass_network_visualization(ax_away_passing, away_passes_between_df, away_average_locs_and_count_df)
+    pass_network_visualization(ax_away_passing, away_passes_between_df, away_average_locs_and_count_df,flipped=True)
     ax_away_passing.set_title('Away Passing Network', fontsize=15, color='purple',weight='bold')
     
     
