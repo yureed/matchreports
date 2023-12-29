@@ -331,6 +331,7 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
             passes_between_df['start_y'] = pitch.dim.right - passes_between_df['start_y']
             passes_between_df['start_y_end'] = pitch.dim.right - passes_between_df['start_y_end']
             average_locs_and_count_df['start_y'] = pitch.dim.right - average_locs_and_count_df['start_y']
+
     
         pass_lines = pitch.lines(passes_between_df.start_x, passes_between_df.start_y,
                                  passes_between_df.start_x_end, passes_between_df.start_y_end, lw=passes_between_df.width,
