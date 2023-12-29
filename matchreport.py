@@ -1087,10 +1087,10 @@ def team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,pa
         plt.suptitle(f'{home_team_name} vs {away_team_name} - {selected_team_report}', fontsize=26, fontweight='bold', color='black',x=0.43)
         plt.subplots_adjust(top=1.35)  # Increase the top margin
         st.pyplot(fig)
-def player_reports(arsenalwolves,selected_player_report,selected_player_id,selected_player_name,passes_final_third,passes_penalty_area):
-    player_plot = arsenalwolves[arsenalwolves['player_id'] == selected_player_id]
+def player_reports(matchdataframe,selected_player_report,selected_player_id,selected_player_name,passes_final_third,passes_penalty_area):
+    player_plot = matchdataframe[matchdataframe['player_id'] == selected_player_id]
     
-    # Assuming you have already defined 'arsenalwolves', 'grid', 'VerticalPitch' before this code snippet
+    # Assuming you have already defined 'matchdataframe', 'grid', 'VerticalPitch' before this code snippet
     fig, ax = plt.subplots(figsize=(27,16))
     fig.set_facecolor('white')
 
@@ -1336,5 +1336,5 @@ if report_type == 'Team Report':
 elif report_type =='Player Report':
     passes_penalty_area = pd.concat([passes_away_penalty_area, passes_home_penalty_area], ignore_index=True)
     passes_final_third = pd.concat([passes_away_final_third, passes_home_final_third], ignore_index=True)
-    player_reports(arsenalwolves,selected_player_report,selected_player_id,selected_player_name,passes_final_third,passes_penalty_area)
+    player_reports(matchdataframe,selected_player_report,selected_player_id,selected_player_name,passes_final_third,passes_penalty_area)
 
