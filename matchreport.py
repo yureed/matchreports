@@ -520,7 +520,9 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
         'Sheffield United': 'Sheff Utd',
         'Newcastle': 'New Utd',
         'Bournemouth': "B'mouth",
-        'Nottingham Forest': 'Nott Forest'
+        'Nottingham Forest': 'Nott Forest',
+        'Aston Villa':"A' Villa",
+        'Crystal Palace': "Palace"
         # Add more mappings as needed
     }
     
