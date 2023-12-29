@@ -22,6 +22,8 @@ from streamlit_gsheets import GSheetsConnection
 
 # Create a connection object.
 conn = st.connection("gsheets", type=GSheetsConnection)
+# Add a title to the Streamlit app
+st.title("Premier League Match Reports")
 
 
 @st.cache_data(ttl=600) 
