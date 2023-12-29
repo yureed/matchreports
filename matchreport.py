@@ -1138,6 +1138,7 @@ def player_reports(matchdataframe,selected_player_report,selected_player_id,sele
             text.set_color("white")
         plt.suptitle(f'{selected_player_id} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
         plt.subplots_adjust(top=0.96)  # Increase the top margin
+        st.pyplot(fig)
     elif selected_player_report == 'Dribbles/Carries':
         player_plot = player_plot[player_plot['type_name'] == 'dribble']
         successful_player_plot = player_plot[player_plot['result_name'] == 'success']
