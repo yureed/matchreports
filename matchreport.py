@@ -82,7 +82,7 @@ elif report_type == "Player Report":
 
     # Player selection
     selected_player_name = st.sidebar.selectbox("Select player:", player_names)
-    selected_player_id = player_names_and_ids.loc[player_names_and_ids['player_name'] == selected_player_name, 'player_id'].iloc[0]
+    selected_player_id = consolidated_players.loc[consolidated_players['player_name'] == selected_player_name, 'player_id'].iloc[0]
     st.write(f'Selected Player: {selected_player_name} (ID: {selected_player_id})')
 
 
