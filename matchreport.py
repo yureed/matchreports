@@ -1227,7 +1227,7 @@ def player_reports(matchdataframe,selected_player_report,selected_player_id,sele
         player_plot = passes_penalty_area[passes_penalty_area['player_id'] == selected_player_id]
         pitch.arrows(player_plot['start_x'], player_plot['start_y'],
                           player_plot['end_x'], player_plot['end_y'],
-                          width=25, headwidth=3, label='Successful Passes',
+                          width=2, headwidth=3, label='Successful Passes',
                           color='green', ax=ax, alpha=.99)
        
         plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
