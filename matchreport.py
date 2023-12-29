@@ -26,9 +26,9 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 st.title("Premier League Match Reports")
 
 
-@st.cache_data(ttl=600) 
+@st.cache_data(ttl=3600) 
 def read_data(worksheet):
-    consolidated_data = conn.read(worksheet=worksheet, ttl="10m")
+    consolidated_data = conn.read(worksheet=worksheet, ttl="60m")
     return consolidated_data
 
 consolidated_defined_actions = read_data("events")
