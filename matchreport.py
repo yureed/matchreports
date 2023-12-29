@@ -24,20 +24,16 @@ from streamlit_gsheets import GSheetsConnection
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 
-consolidated_defined_actions = conn.read(
-    worksheet="events",
-    ttl="10m"
-)
+@st.cache_data(ttl=600) 
+def read_data(worksheet):
+    consolidated_data = conn.read(worksheet=worksheet, ttl="10m")
+    return consolidated_data
 
-consolidated_teams = conn.read(
-    worksheet="teams",
-    ttl="10m"
-)
+consolidated_defined_actions = read_data("events")
+consolidated_teams = read_data("teams")
+consolidated_players = read_data("players")
 
-consolidated_players = conn.read(
-    worksheet="players",
-    ttl="10m"
-)
+
 eng_premier_league_2324 = pd.read_csv('ENG-Premier League_2324.csv')
 common_game_ids = consolidated_defined_actions['game_id'].unique()
 
