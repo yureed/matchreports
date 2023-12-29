@@ -327,20 +327,15 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
         pitch = VerticalPitch(pitch_type='opta', pitch_color='white', line_color='black')
         pitch.draw(ax=ax)
     
-        if flipped:
-            passes_between_df['start_y'] = pitch.dim.right - passes_between_df['start_y']
-            passes_between_df['start_y_end'] = pitch.dim.right - passes_between_df['start_y_end']
-            average_locs_and_count_df['start_y'] = pitch.dim.right - average_locs_and_count_df['start_y']
 
-    
         pass_lines = pitch.lines(passes_between_df.start_x, passes_between_df.start_y,
                                  passes_between_df.start_x_end, passes_between_df.start_y_end, lw=passes_between_df.width,
                                  color=color, zorder=1, ax=ax)
         
         for index, row in average_locs_and_count_df.iterrows():
             if flipped:
-                pitch.scatter(row.start_x, row.start_y, s=row.marker_size, color='violet', edgecolors='red', linewidth=1, alpha=0.8, ax=ax)
-                pitch.annotate(str(row['jersey_number']), xy=(row.start_x, row.start_y), color='black', va='center', ha='center', size=10, weight='bold', bbox=dict(boxstyle='round,pad=22.5', facecolor='none', edgecolor='none'), ax=ax)
+                pitch.scatter(row.start_x, row.start_y, s=row.marker_size, color='violet', edgecolors='black', linewidth=1, alpha=0.8, ax=ax)
+                pitch.annotate(str(row['jersey_number']), xy=(row.start_x, row.start_y), color='black', va='center', ha='center', size=10,weight='bold', ax=ax)
     
             else:
                 pitch.scatter(row.start_x, row.start_y, s=row.marker_size, color='red', edgecolors='black', linewidth=1, alpha=0.8, ax=ax)
