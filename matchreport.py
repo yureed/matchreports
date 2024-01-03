@@ -63,6 +63,7 @@ if report_type == "Team Report":
     # Team report options
     team_report_options = [
         "General Report",
+        "Comparison",
         "Passes",
         "Shot",
         "Dribbles/Carries",
