@@ -1342,7 +1342,7 @@ if report_type == 'Team Report':
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     elif selected_team_report == 'Comparison':
-        matchdataframe = pd.merge(matchdataframe, consolidated_players[['player_id', 'name']], how='left', left_on='player_id', right_on='player_id')
+        matchdataframe = pd.merge(matchdataframe, consolidated_players[['player_id', 'player_name']], how='left', left_on='player_id', right_on='player_id')
 
         # Filter the DataFrame based on conditions (progressive, type_name, result_name)
         filtered_data = matchdataframe[(matchdataframe['progressive'] == True) & 
