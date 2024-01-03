@@ -6,7 +6,7 @@ from mplsoccer import Pitch
 import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerTuple
 import numpy as np
-import plotly.express as px
+import altair as alt
 import json
 from matplotlib.colors import LinearSegmentedColormap
 import re
@@ -1363,22 +1363,16 @@ if report_type == 'Team Report':
         result_dataframe = pd.merge(result_dataframe, consolidated_players, on='player_id', how='left')
         
         # Streamlit app
-        st.title('Progressive Passes vs Progressive Carries/Dribbles')
+        st.title('Progressive Passes vs Progressive Carries')
         
-        # Plotly scatter plot
-        fig = px.scatter(
-            result_dataframe,
-            x='progressive_pass_count',
-            y='dribble_count',
-            text='player_name',
-            labels={'progressive_pass_count': 'Progressive Passes', 'dribble_count': 'Progressive Carries/Dribbles'},
-            title='Progressive Passes vs Progressive Carries/Dribbles',
-            size_max=30,
-            width=800,
-            height=600
-        )
+        # Altair scatter plot
+        scatter_plot = alt.Chart(result_dataframe).mark_circle().encode(
+            x='progressive_pass_count:Q',
+            y='dribble_count:Q',
+            tooltip=['player_name:N', 'progressive_pass_count:Q', 'dribble_count:Q']
+        ).interactive()
         
-        st.plotly_chart(fig)
+        st.altair_chart(scatter_plot, use_container_width=True)
         
 
     else:
