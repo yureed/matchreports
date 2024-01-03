@@ -1348,7 +1348,7 @@ if report_type == 'Team Report':
             matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['result_name'] == 'success') & (matchdataframe['progressive'] == True)]
             .groupby('player_id')
             .size()
-            .reset_index(name='progressive_pass_count')
+            .reset_index(name='progressive_passes')
         )
         
         # Count dribbles for each player
@@ -1356,7 +1356,7 @@ if report_type == 'Team Report':
             matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['progressive'] == True)]
             .groupby('player_id')
             .size()
-            .reset_index(name='dribble_count')
+            .reset_index(name='progressive_carries')
         )
         
         result_dataframe = pd.merge(progressive_passes, progressive_carries, on='player_id', how='outer').fillna(0)
