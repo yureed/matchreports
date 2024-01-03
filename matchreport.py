@@ -59,6 +59,7 @@ st.write(f'Selected Match: {selected_match}')
 
 report_type_options = ["Team Report", "Player Report"]
 report_type = st.sidebar.selectbox("Select report type:", report_type_options)
+ player_names = consolidated_players.loc[consolidated_players['game_id'] == selected_game_id, 'player_name'].unique()
 
 if report_type == "Team Report":
     # Team report options
