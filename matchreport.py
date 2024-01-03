@@ -1343,6 +1343,7 @@ def get_possession_radar_data(matchdataframe, selected_players):
     radar_data = pd.DataFrame()
 
     for player_id in selected_players:
+        st.write(player_id)
         # Number of passes
         passes_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['player_id'] == player_id) & (matchdataframe['result_name'] == 'success')].shape[0]
 
