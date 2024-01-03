@@ -60,7 +60,8 @@ st.write(f'Selected Match: {selected_match}')
 
 report_type_options = ["Team Report", "Player Report"]
 report_type = st.sidebar.selectbox("Select report type:", report_type_options)
-player_names = consolidated_players.loc[consolidated_players['game_id'] == selected_game_id, 'player_name'].unique()
+selected_player_from_filter = consolidated_players.loc[consolidated_players['game_id'] == selected_game_id, ['player_name', 'player_id']]
+player_names = selected_player_from_filter.drop_duplicates()
 
 if report_type == "Team Report":
     # Team report options
@@ -80,7 +81,6 @@ if report_type == "Team Report":
         "Cross"
     ]
     selected_team_report = st.sidebar.selectbox("Select team report type:", team_report_options)
-    player_names = consolidated_players.loc[consolidated_players['game_id'] == selected_game_id, 'player_name'].unique()
     st.write(f'Selected Team Report Type: {selected_team_report}')
 
 elif report_type == "Player Report":
