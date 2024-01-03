@@ -1343,12 +1343,12 @@ if report_type == 'Team Report':
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     elif selected_team_report == 'Comparison':
-        # Count progressive passes for each player
+       # Count progressive passes for each player
         progressive_passes = (
             matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['result_name'] == 'success') & (matchdataframe['progressive'] == True)]
             .groupby('player_id')
             .size()
-            .reset_index(name='progressive_passes')
+            .reset_index(name='progressive_pass_count')
         )
         
         # Count dribbles for each player
@@ -1356,11 +1356,12 @@ if report_type == 'Team Report':
             matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['progressive'] == True)]
             .groupby('player_id')
             .size()
-            .reset_index(name='progressive_carries')
+            .reset_index(name='dribble_count')
         )
         
         result_dataframe = pd.merge(progressive_passes, progressive_carries, on='player_id', how='outer').fillna(0)
         result_dataframe = pd.merge(result_dataframe, consolidated_players, on='player_id', how='left')
+        
         # Total passes for each player
         total_passes = (
             matchdataframe[matchdataframe['type_name'] == 'pass']
@@ -1381,18 +1382,16 @@ if report_type == 'Team Report':
         result_dataframe = pd.merge(result_dataframe, total_passes, on='player_id', how='left')
         result_dataframe = pd.merge(result_dataframe, total_dribbles, on='player_id', how='left')
         result_dataframe['total_actions'] = result_dataframe['total_passes'] + result_dataframe['total_dribbles']
-
-
         
         # Streamlit app
         st.title('Progressive Passes vs Progressive Carries')
         
         # Altair scatter plot
         scatter_plot = alt.Chart(result_dataframe).mark_circle().encode(
-            x='progressive_passes:Q',
-            y='progressive_carries:Q',
+            x='progressive_pass_count:Q',
+            y='dribble_count:Q',
             size='total_actions:Q',
-            tooltip=['player_name:N', 'progressive_passes:Q', 'progressive_carries:Q', 'total_passes:Q', 'total_dribbles:Q']
+            tooltip=['player_name:N', 'progressive_pass_count:Q', 'dribble_count:Q', 'total_passes:Q', 'total_dribbles:Q']
         ).interactive()
         
         st.altair_chart(scatter_plot, use_container_width=True)
