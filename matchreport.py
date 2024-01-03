@@ -6,6 +6,7 @@ from mplsoccer import Pitch
 import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerTuple
 import numpy as np
+import plotly.express as px
 import json
 from matplotlib.colors import LinearSegmentedColormap
 import re
@@ -1364,20 +1365,20 @@ if report_type == 'Team Report':
         # Streamlit app
         st.title('Progressive Passes vs Progressive Carries/Dribbles')
         
-        # Scatter plot using matplotlib
-        fig, ax = plt.subplots()
-        scatter = ax.scatter(
-            x=result_dataframe['progressive_pass_count'],
-            y=result_dataframe['dribble_count'],
-            s=100,  # Marker size
-            alpha=0.7
+        # Plotly scatter plot
+        fig = px.scatter(
+            result_dataframe,
+            x='progressive_pass_count',
+            y='dribble_count',
+            text='player_name',
+            labels={'progressive_pass_count': 'Progressive Passes', 'dribble_count': 'Progressive Carries/Dribbles'},
+            title='Progressive Passes vs Progressive Carries/Dribbles',
+            size_max=30,
+            width=800,
+            height=600
         )
         
-        # Annotate points with player names
-        for i, txt in enumerate(result_dataframe['player_name']):
-            ax.annotate(txt, (result_dataframe['progressive_pass_count'].iloc[i], result_dataframe['dribble_count'].iloc[i]))
-        
-        st.pyplot(fig)
+        st.plotly_chart(fig)
         
 
     else:
