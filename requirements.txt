@@ -1,5 +1,6 @@
 seaborn
 mplsoccer
+plotly.express
 matplotlib
 st-gsheets-connection
 highlight_text
