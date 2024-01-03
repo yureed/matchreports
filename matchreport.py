@@ -1368,7 +1368,7 @@ def get_possession_radar_data(matchdataframe, selected_players):
                                                  (matchdataframe['player_id'] == player_id)].shape[0]
 
         player_data = {
-            'Player': player_id,
+            'Player': name_of_player,
             'Passes': passes_count,
             'Carries': carries_count,
             'Take-ons': take_ons_count,
