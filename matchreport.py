@@ -1340,6 +1340,21 @@ if report_type == 'Team Report':
         general_report(home_passes_between_df,home_average_locs_and_count_df,away_passes_between_df,away_average_locs_and_count_df,
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
+    elif selected_team_report == 'Comparison':
+        matchdataframe = pd.merge(matchdataframe, consolidated_players[['player_id', 'name']], how='left', left_on='player_id', right_on='player_id')
+
+        # Filter the DataFrame based on conditions (progressive, type_name, result_name)
+        filtered_data = matchdataframe[(matchdataframe['progressive'] == True) & 
+                                       ((matchdataframe['type_name'] == 'pass') | (matchdataframe['type_name'] == 'dribble')) & 
+                                       (matchdataframe['result_name'] == 'success')]
+        
+        # Create a new Streamlit app
+        st.title("Player Progression Graph")
+        
+        # Create a scatter plot using Streamlit
+        st.scatter_chart(filtered_data, x='type_name', y='name', use_container_width=True)
+        st.show()
+
     else:
         team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
                 passes_away_final_third,passes_home_final_third)
