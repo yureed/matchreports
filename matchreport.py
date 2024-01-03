@@ -1383,17 +1383,22 @@ if report_type == 'Team Report':
     elif selected_team_report == 'Comparison':
         selected_players = st.multiselect("Select Players:", player_names)
         if selected_players:
+            
             possession_radar_data = get_possession_radar_data(matchdataframe, selected_players)
         
-            fig = px.line_polar(
-                possession_radar_data,
-                r=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
-                theta='Player',
-                line_close=True,
-                range_r=[0, possession_radar_data[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']].max().max()]
-            )
+            # Check if there's more than one unique player
+            if possession_radar_data['Player'].nunique() > 1:
+                fig = px.line_polar(
+                    possession_radar_data,
+                    r=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
+                    theta=possession_radar_data['Player'],  # Set theta to the player names
+                    line_close=True,
+                    range_r=[0, possession_radar_data[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']].max().max()]
+                )
         
-            st.plotly_chart(fig)
+                st.plotly_chart(fig)
+            else:
+                st.warning("Please select more than one player for comparison.")
         else:
             st.info("Please select at least one player.")
         
