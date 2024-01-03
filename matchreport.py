@@ -1344,13 +1344,13 @@ def get_possession_radar_data(matchdataframe, selected_players):
 
     for player_id in selected_players:
         # Number of passes
-        passes_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['player_id'] == player_id)].shape[0]
+        passes_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['player_id'] == player_id) & (matchdataframe['result_name'] == 'success')].shape[0]
 
         # Number of carries
-        carries_count = matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['player_id'] == player_id)].shape[0]
+        carries_count = matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['player_id'] == player_id) & (matchdataframe['result_name'] == 'success')].shape[0]
 
         # Number of take-ons
-        take_ons_count = matchdataframe[(matchdataframe['type_name'] == 'take_on') & (matchdataframe['player_id'] == player_id)].shape[0]
+        take_ons_count = matchdataframe[(matchdataframe['type_name'] == 'take_on') & (matchdataframe['player_id'] == player_id) & (matchdataframe['result_name'] == 'success')].shape[0]
 
         # Progressive passes
         progressive_pass_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & 
