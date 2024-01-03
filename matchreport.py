@@ -1336,6 +1336,42 @@ def player_reports(matchdataframe,selected_player_report,selected_player_id,sele
         plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
         plt.subplots_adjust(top=0.96)  # Increase the top margin
         st.pyplot(fig)
+def get_possession_radar_data(matchdataframe, selected_players):
+    radar_data = pd.DataFrame()
+
+    for player_id in selected_players:
+        # Number of passes
+        passes_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['player_id'] == player_id)].shape[0]
+
+        # Number of carries
+        carries_count = matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['player_id'] == player_id)].shape[0]
+
+        # Number of take-ons
+        take_ons_count = matchdataframe[(matchdataframe['type_name'] == 'take_on') & (matchdataframe['player_id'] == player_id)].shape[0]
+
+        # Progressive passes
+        progressive_pass_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & 
+                                                (matchdataframe['result_name'] == 'success') & 
+                                                (matchdataframe['progressive'] == True) & 
+                                                (matchdataframe['player_id'] == player_id)].shape[0]
+
+        # Progressive carries
+        progressive_carry_count = matchdataframe[(matchdataframe['type_name'] == 'dribble') & 
+                                                 (matchdataframe['progressive'] == True) & 
+                                                 (matchdataframe['player_id'] == player_id)].shape[0]
+
+        player_data = {
+            'Player': player_id,
+            'Passes': passes_count,
+            'Carries': carries_count,
+            'Take-ons': take_ons_count,
+            'Progressive Passes': progressive_pass_count,
+            'Progressive Carries': progressive_carry_count
+        }
+
+        radar_data = radar_data.append(player_data, ignore_index=True)
+
+    return radar_data
 
 if report_type == 'Team Report':
     if selected_team_report == 'General Report':
@@ -1343,58 +1379,23 @@ if report_type == 'Team Report':
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     elif selected_team_report == 'Comparison':
-       # Count progressive passes for each player
-        progressive_passes = (
-            matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['result_name'] == 'success') & (matchdataframe['progressive'] == True)]
-            .groupby('player_id')
-            .size()
-            .reset_index(name='progressive_pass_count')
-        )
+        selected_players = st.multiselect("Select Players:", player_names)
+        if selected_players:
+            possession_radar_data = get_possession_radar_data(matchdataframe, selected_players)
         
-        # Count dribbles for each player
-        progressive_carries = (
-            matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['progressive'] == True)]
-            .groupby('player_id')
-            .size()
-            .reset_index(name='dribble_count')
-        )
+            fig = px.line_polar(
+                possession_radar_data,
+                r=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
+                theta='Player',
+                line_close=True,
+                range_r=[0, possession_radar_data[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']].max().max()]
+            )
         
-        result_dataframe = pd.merge(progressive_passes, progressive_carries, on='player_id', how='outer').fillna(0)
-        result_dataframe = pd.merge(result_dataframe, consolidated_players, on='player_id', how='left')
+            st.plotly_chart(fig)
+        else:
+            st.info("Please select at least one player.")
         
-        # Total passes for each player
-        total_passes = (
-            matchdataframe[matchdataframe['type_name'] == 'pass']
-            .groupby('player_id')
-            .size()
-            .reset_index(name='total_passes')
-        )
-        
-        # Total dribbles for each player
-        total_dribbles = (
-            matchdataframe[matchdataframe['type_name'] == 'dribble']
-            .groupby('player_id')
-            .size()
-            .reset_index(name='total_dribbles')
-        )
-        
-        # Merge total passes and total dribbles with result_dataframe
-        result_dataframe = pd.merge(result_dataframe, total_passes, on='player_id', how='left')
-        result_dataframe = pd.merge(result_dataframe, total_dribbles, on='player_id', how='left')
-        result_dataframe['total_actions'] = result_dataframe['total_passes'] + result_dataframe['total_dribbles']
-        
-        # Streamlit app
-        st.title('Progressive Passes vs Progressive Carries')
-        
-        # Altair scatter plot
-        scatter_plot = alt.Chart(result_dataframe).mark_circle().encode(
-            x='progressive_pass_count:Q',
-            y='dribble_count:Q',
-            tooltip=['player_name:N', 'progressive_pass_count:Q', 'dribble_count:Q', 'total_passes:Q', 'total_dribbles:Q']
-        ).properties(width=800,height=600).interactive()
-        
-        st.altair_chart(scatter_plot, use_container_width=True)
-        
+      
 
     else:
         team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
