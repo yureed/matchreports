@@ -1359,7 +1359,7 @@ if report_type == 'Team Report':
             .reset_index(name='dribble_count')
         )
         
-        result_dataframe = pd.merge(progressive_pass_count, dribble_count, on='player_id', how='outer').fillna(0)
+        result_dataframe = pd.merge(progressive_passes, progressive_carries, on='player_id', how='outer').fillna(0)
         result_dataframe = pd.merge(result_dataframe, consolidated_players, on='player_id', how='left')
         # Total passes for each player
         total_passes = (
