@@ -1380,34 +1380,36 @@ if report_type == 'Team Report':
         general_report(home_passes_between_df,home_average_locs_and_count_df,away_passes_between_df,away_average_locs_and_count_df,
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
-   elif selected_team_report == 'Comparison':
-       selected_players = st.multiselect("Select Players:", player_names)
-       if selected_players:
-           possession_radar_data = get_possession_radar_data(matchdataframe, selected_players)
-           # Check if there's more than one unique player
-           if possession_radar_data['Player'].nunique() > 1:
-                fig = go.Figure()
-                for _, row in possession_radar_data.iterrows():
-                    fig.add_trace(go.Scatterpolar(
-                        r=row[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']],
-                        theta=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
-                        fill='toself',
-                        name=row['Player']
-                    ))
-                fig.update_layout(
-                    polar=dict(
-                        radialaxis=dict(
-                            visible=True,
-                            range=[0, possession_radar_data[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']].max().max()]
-                        )
-                    ),
-                    showlegend=True
-                )
-                st.plotly_chart(fig)
-            else:
-                st.warning("Please select more than one player for comparison.")
+elif selected_team_report == 'Comparison':
+    selected_players = st.multiselect("Select Players:", player_names)
+    if selected_players:
+        possession_radar_data = get_possession_radar_data(matchdataframe, selected_players)
+
+        # Check if there's more than one unique player
+        if possession_radar_data['Player'].nunique() > 1:
+            fig = go.Figure()
+            for _, row in possession_radar_data.iterrows():
+                fig.add_trace(go.Scatterpolar(
+                    r=row[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']],
+                    theta=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
+                    fill='toself',
+                    name=row['Player']
+                ))
+            fig.update_layout(
+                polar=dict(
+                    radialaxis=dict(
+                        visible=True,
+                        range=[0, possession_radar_data[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']].max().max()]
+                    )
+                ),
+                showlegend=True
+            )
+            st.plotly_chart(fig)
         else:
-            st.info("Please select at least one player.")
+            st.warning("Please select more than one player for comparison.")
+    else:
+        st.info("Please select at least one player.")
+
 
 
     else:
