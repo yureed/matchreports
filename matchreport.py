@@ -1342,24 +1342,38 @@ if report_type == 'Team Report':
                   passes_home_final_third,passes_away_final_third,passes_away_penalty_area,passes_home_penalty_area,goal_rows,
                   home_team_goal_count,away_team_goal_count,home_team_name,away_team_name)
     elif selected_team_report == 'Comparison':
-        matchdataframe = pd.merge(matchdataframe, consolidated_players[['player_id', 'player_name']], how='left', left_on='player_id', right_on='player_id')
+        # Count progressive passes for each player
+        progressive_pass_count = (
+            matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['result_name'] == 'success') & (matchdataframe['progressive'] == True)]
+            .groupby('player_id')
+            .size()
+            .reset_index(name='progressive_pass_count')
+        )
+        
+        # Count dribbles for each player
+        dribble_count = (
+            matchdataframe[(matchdataframe['type_name'] == 'dribble') & (matchdataframe['progressive'] == True)]
+            .groupby('player_id')
+            .size()
+            .reset_index(name='dribble_count')
+        )
+        
+        result_dataframe = pd.merge(progressive_pass_count, dribble_count, on='player_id', how='outer').fillna(0)
+        result_dataframe = pd.merge(result_dataframe, consolidated_players, on='player_id', how='left')
+        
+        # Streamlit app
+        st.title('Progressive Passes vs Progressive Carries/Dribbles')
+        
+        # Scatter plot
+        st.scatter_chart(
+            data=result_dataframe,
+            x='progressive_pass_count',
+            y='dribble_count',
+            marker_size=20,
+            labels=result_dataframe['player_name'].tolist(),  # Use player_name as labels
+            use_container_width=True
+)
 
-        # Filter the DataFrame based on conditions (progressive, type_name, result_name)
-        filtered_data = matchdataframe[(matchdataframe['progressive'] == True) & 
-                                       ((matchdataframe['type_name'] == 'pass') | (matchdataframe['type_name'] == 'dribble')) & 
-                                       (matchdataframe['result_name'] == 'success')]
-        
-        # Aggregate the number of progressive passes and dribbles for each player
-        aggregated_data = filtered_data.groupby('player_name').agg({'type_name': 'count'}).reset_index()
-        
-        # Create a new Streamlit app
-        st.title("Player Progression Graph")
-        
-        # Create a scatter plot using Streamlit
-        st.scatter_chart(aggregated_data, x='type_name', y='player_name', use_container_width=True)
-        
-        # Display the Streamlit app
-        st.show()
 
     else:
         team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
