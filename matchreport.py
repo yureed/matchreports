@@ -1390,7 +1390,6 @@ if report_type == 'Team Report':
         scatter_plot = alt.Chart(result_dataframe).mark_circle().encode(
             x='progressive_pass_count:Q',
             y='dribble_count:Q',
-            size='total_actions:Q',
             tooltip=['player_name:N', 'progressive_pass_count:Q', 'dribble_count:Q', 'total_passes:Q', 'total_dribbles:Q']
         ).properties(width=800,height=600).interactive()
         
