@@ -1391,15 +1391,17 @@ if report_type == 'Team Report':
             possession_radar_data = get_possession_radar_data(matchdataframe, selected_players)
     
             # Check if there's more than one unique player
+            color_scale = px.colors.qualitative.Set1  # Choose a color scale from plotly express
+
             if possession_radar_data['Player'].nunique() > 1:
-                fig = go.Figure()
-                for _, row in possession_radar_data.iterrows():
-                    fig.add_trace(go.Scatterpolar(
-                        r=row[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']],
-                        theta=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
-                        fill='toself',
-                        name=row['Player']
-                    ))
+                fig = px.line_polar(possession_radar_data,
+                                    r=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
+                                    theta=['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries'],
+                                    line_close=True,
+                                    color='Player',
+                                    color_discrete_sequence=color_scale,
+                                    )
+            
                 fig.update_layout(
                     polar=dict(
                         radialaxis=dict(
@@ -1407,8 +1409,15 @@ if report_type == 'Team Report':
                             range=[0, possession_radar_data[['Passes', 'Carries', 'Take-ons', 'Progressive Passes', 'Progressive Carries']].max().max()]
                         )
                     ),
-                    showlegend=True
+                    showlegend=True,
+                    legend=dict(
+                        orientation="h",  # Change legend orientation to horizontal
+                        x=0.5,  # Adjust the x position of the legend
+                        y=1.1,  # Adjust the y position of the legend
+                    ),
+                    polar_bgcolor="lightgrey",  # Set background color
                 )
+            
                 st.plotly_chart(fig)
             else:
                 st.warning("Please select more than one player for comparison.")
