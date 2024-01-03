@@ -1349,11 +1349,16 @@ if report_type == 'Team Report':
                                        ((matchdataframe['type_name'] == 'pass') | (matchdataframe['type_name'] == 'dribble')) & 
                                        (matchdataframe['result_name'] == 'success')]
         
+        # Aggregate the number of progressive passes and dribbles for each player
+        aggregated_data = filtered_data.groupby('player_name').agg({'type_name': 'count'}).reset_index()
+        
         # Create a new Streamlit app
         st.title("Player Progression Graph")
         
         # Create a scatter plot using Streamlit
-        st.scatter_chart(filtered_data, x='type_name', y='name', use_container_width=True)
+        st.scatter_chart(aggregated_data, x='type_name', y='player_name', use_container_width=True)
+        
+        # Display the Streamlit app
         st.show()
 
     else:
