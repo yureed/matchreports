@@ -1364,16 +1364,21 @@ if report_type == 'Team Report':
         # Streamlit app
         st.title('Progressive Passes vs Progressive Carries/Dribbles')
         
-        # Scatter plot
-        st.scatter_chart(
-            data=result_dataframe,
-            x='progressive_pass_count',
-            y='dribble_count',
-            marker_size=20,
-            labels=result_dataframe['player_name'].tolist(),  # Use player_name as labels
-            use_container_width=True
-)
-
+        # Scatter plot using matplotlib
+        fig, ax = plt.subplots()
+        scatter = ax.scatter(
+            x=result_dataframe['progressive_pass_count'],
+            y=result_dataframe['dribble_count'],
+            s=100,  # Marker size
+            alpha=0.7
+        )
+        
+        # Annotate points with player names
+        for i, txt in enumerate(result_dataframe['player_name']):
+            ax.annotate(txt, (result_dataframe['progressive_pass_count'].iloc[i], result_dataframe['dribble_count'].iloc[i]))
+        
+        st.pyplot(fig)
+        
 
     else:
         team_reports(matchdataframe,selected_team_report,passes_home_penalty_area,passes_away_penalty_area,
