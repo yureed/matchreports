@@ -1344,11 +1344,8 @@ def get_possession_radar_data(matchdataframe, selected_players):
 
     for player_id in selected_players:
        # Mapping player names to their corresponding IDs
-        id_mapping = consolidated_players.set_index('player_name')['player_id'].to_dict()
-        
-        # Replace player names with corresponding IDs
-        player_id = [id_mapping[name] if name in id_mapping else name for name in player_id]
-        st.write(player_id)
+        name_of_player = player_id
+        player_id = consolidated_players.loc[consolidated_players['player_name'] == name_of_player, 'player_id'].values[0]
 
         # Number of passes
         passes_count = matchdataframe[(matchdataframe['type_name'] == 'pass') & (matchdataframe['player_id'] == player_id) & (matchdataframe['result_name'] == 'success')].shape[0]
