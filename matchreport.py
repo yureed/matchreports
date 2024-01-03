@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerTuple
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 import json
 from matplotlib.colors import LinearSegmentedColormap
 import re
