@@ -6,7 +6,7 @@ from mplsoccer import Pitch
 import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerTuple
 import numpy as np
-import altair as alt
+import plotly.express as px
 import json
 from matplotlib.colors import LinearSegmentedColormap
 import re
