@@ -1151,7 +1151,7 @@ def player_reports(matchdataframe,selected_player_report,selected_player_id,sele
         l = ax.legend(shadow=True, loc='lower center', ncol=2, prop={'size': 15}, facecolor='black', edgecolor='#22312b')
         for text in l.get_texts():
             text.set_color("white")
-        plt.suptitle(f'{selected_player_id} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
+        plt.suptitle(f'{selected_player_name} - {selected_player_report}', fontsize=26, fontweight='bold', color='black',x=0.52)
         plt.subplots_adjust(top=0.96)  # Increase the top margin
         st.pyplot(fig)
     elif selected_player_report == 'Dribbles/Carries':
