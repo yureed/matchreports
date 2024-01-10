@@ -339,11 +339,11 @@ def general_report(home_passes_between_df,home_average_locs_and_count_df,away_pa
         for index, row in average_locs_and_count_df.iterrows():
             if flipped:
                 pitch.scatter(row.start_x, row.start_y, s=row.marker_size, color='violet', edgecolors='black', linewidth=1, alpha=0.8, ax=ax)
-                pitch.annotate(str(row['jersey_number']), xy=(row.start_x, row.start_y), color='black', va='center', ha='center', size=10,weight='bold', ax=ax)
-    
+                pitch.annotate(str(int(row['jersey_number'])), xy=(row.start_x, row.start_y), color='black', va='center', ha='center', size=10, weight='bold', ax=ax)
             else:
                 pitch.scatter(row.start_x, row.start_y, s=row.marker_size, color='red', edgecolors='black', linewidth=1, alpha=0.8, ax=ax)
-                pitch.annotate(str(row['jersey_number']), xy=(row.start_x, row.start_y), color='black', va='center', ha='center', size=10,weight='bold', ax=ax)
+                pitch.annotate(str(int(row['jersey_number'])), xy=(row.start_x, row.start_y), color='black', va='center', ha='center', size=10, weight='bold', ax=ax)
+
     
     
         return pitch
