@@ -6,7 +6,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from .constants import ARROW_EVENTS, CARRY_EVENTS
-
+from utils.supabase import get_supabase
 
 @st.cache_data(ttl=600)
 def load_table(table_name: str) -> pd.DataFrame:
@@ -182,3 +182,4 @@ def get_box_entries(df, team, home_team):
     ]
 
     return passes, carries
+
