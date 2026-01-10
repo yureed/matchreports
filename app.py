@@ -12,6 +12,9 @@ import plotly.graph_objects as go
 import plotly.express as px
 from io import BytesIO
 import os
+from utils.data import load_data
+
+
 
 # =============================================================================
 # PAGE CONFIG
@@ -353,28 +356,6 @@ def fig_to_buffer(fig, dpi=200):
     buf.seek(0)
     return buf
 
-
-@st.cache_data
-def load_data():
-    actions = pd.read_csv('consolidated_defined_actions.csv')
-    players = pd.read_csv('consolidated_players.csv')
-    teams = pd.read_csv('consolidated_teams.csv').drop_duplicates(subset=['team_id'])
-
-    actions = actions.merge(teams[['team_id', 'team_name']], on='team_id', how='left')
-    actions = actions.merge(
-        players[['player_id', 'player_name']].drop_duplicates(subset=['player_id']),
-        on='player_id', how='left'
-    )
-
-    actions['player_name'] = actions['player_name'].fillna('Unknown')
-    actions['minute'] = (actions['time_seconds_overall'] / 60).astype(int)
-    actions['second'] = (actions['time_seconds_overall'] % 60).astype(int)
-    actions['time_display'] = actions.apply(lambda x: f"{x['minute']}'{x['second']:02d}\"", axis=1)
-
-    game_teams = actions.groupby('game_id').agg({'team_name': lambda x: list(x.unique())}).reset_index()
-    game_teams['label'] = game_teams['team_name'].apply(lambda x: f"{x[0]} vs {x[1]}" if len(x) >= 2 else str(x))
-
-    return actions, dict(zip(game_teams['game_id'], game_teams['label']))
 
 
 def compute_stats(df, home, away, home_id=None, away_id=None):
