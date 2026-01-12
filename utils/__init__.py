@@ -16,12 +16,15 @@ from .constants import (
 
 from .data import (
     load_data,
+    load_matches_list,
+    load_match_events,
+    load_player_season_stats,
+    load_team_season_stats,
+    load_team_ppda,
+    get_available_teams,
     flip_coords,
     is_progressive_advanced,
-    is_carry,
     estimate_player_minutes,
-    get_final_third_entries,
-    get_box_entries,
 )
 
 from .stats import (
@@ -46,10 +49,11 @@ __all__ = [
     'COLORS', 'PLOTLY_COLORS', 'SHOT_EVENTS', 'ARROW_EVENTS',
     'CARRY_EVENTS', 'DEFENSIVE_EVENTS', 'KEEPER_EVENTS',
     'EVENT_MARKERS', 'PREMIUM_CSS',
-    # Data
-    'load_data', 'flip_coords', 'is_progressive_advanced',
-    'is_carry', 'estimate_player_minutes',
-    'get_final_third_entries', 'get_box_entries',
+    # Data (optimized)
+    'load_data', 'load_matches_list', 'load_match_events',
+    'load_player_season_stats', 'load_team_season_stats',
+    'load_team_ppda', 'get_available_teams',
+    'flip_coords', 'is_progressive_advanced', 'estimate_player_minutes',
     # Stats
     'compute_match_stats', 'calculate_ppda',
     'calculate_team_stats', 'calculate_player_stats',
